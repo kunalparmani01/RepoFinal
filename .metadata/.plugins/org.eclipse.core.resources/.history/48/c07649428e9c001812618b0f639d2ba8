@@ -1,0 +1,22 @@
+package com.jda.controllers;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/logout")
+public class LogoutController {
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("yoooo");
+		request.getSession().removeAttribute("user");
+		request.getSession().invalidate();
+		response.sendRedirect("login.jsp");
+		
+	}
+	
+	
+}

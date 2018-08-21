@@ -1,0 +1,12 @@
+package com.jda.dao;
+
+import java.sql.Connection;
+
+public class JdbcUtil {
+
+	public Connection getConnection(){
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection connection = 
+		return connection;
+	}
+}

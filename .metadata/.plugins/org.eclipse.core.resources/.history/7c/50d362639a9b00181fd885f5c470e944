@@ -1,0 +1,17 @@
+package com.jda.controllers;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.jda.model.UserModel;
+
+
+public class RegistrationController extends HttpServlet {
+	
+	  public void doPost(HttpServletRequest request, HttpServletResponse response){
+		  UserModel userModel = new UserModel();
+		  userModel.setFirstName(request.getParameter("first_name"));
+	  }
+
+}

@@ -1,0 +1,37 @@
+package com.jda.core;
+
+import java.io.IOException;
+
+import org.codehaus.jackson.map.JsonMappingException;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.jda.util.Scan;
+
+public class DoctorMain {
+	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+		
+		DoctorMethods user=null;
+		
+			while(true)
+			{
+				System.out.println("1.Add Doctor?" + "\n" +"2.Set Patient Appointment" +"\n"+"3. Patients List" +"\n"+"4.Doctors List" +"\n"+"5.Quit");
+				int opt=Scan.getInt();
+				if(opt==5)
+					break;
+		    switch(opt)
+		    {
+		    case 1:DoctorMethods.addDoctorDetail();break;
+		    case 2:if(user==null) 
+		    user= new DoctorMethods();
+		    user.addPatientDetail();break;
+		    case 3:if(user==null) 
+		   user= new DoctorMethods();
+		    user.patientMenu();break;
+		    case 4:if(user==null) 
+		   	user= new DoctorMethods();
+		    user.doctorMenu();break;
+			default:System.out.println("Invalid"); break;
+			}
+			}
+	}
+}

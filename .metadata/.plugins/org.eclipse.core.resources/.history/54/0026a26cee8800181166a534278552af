@@ -1,0 +1,21 @@
+package com.jda.ds.core;
+
+import com.jda.ds.util.LinkedList;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		LinkedList l1 = new LinkedList("kunal");
+	//	l1.addAtHead(11);
+		//l1.addAtHead(12);
+		//l1.addAtHead(13);
+		//l1.addAtTail(8);
+		//l1.addAtTail(7);
+		//l1.addAtIndex(4,9);
+		//l1.addAtIndex(4,9);
+		//l1.deleteAtIndex(4);
+		LinkedList.printList();
+	}
+
+}

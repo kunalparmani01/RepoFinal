@@ -1,0 +1,20 @@
+package com.jda.ds.core;
+
+import com.jda.ds.util.LinkedList;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		LinkedList<Integer> li = new LinkedList<>();
+		System.out.println(li.isEmpty());
+		li.add(1);
+		li.add(2);
+		li.add(3);
+		System.out.println(li.toString());
+		//li.remove(3);
+		li.insert(2, 5);
+		System.out.println(li.toString());		
+	}
+
+}

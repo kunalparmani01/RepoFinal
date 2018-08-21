@@ -1,0 +1,33 @@
+package com.jda.controllers;
+
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.jda.dao.JdbcUtil;
+import com.jda.model.UserModel;
+
+public class LoginController extends HttpServlet{
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response){
+		UserModel userModel = new UserModel();
+		userModel.setEmail(request.getParameter("username"));
+		userModel.setPassword(request.getParameter("password"));
+		
+		UserModel user = new UserModel();
+		
+		try {
+			user = JdbcUtil.loginUser(userModel);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

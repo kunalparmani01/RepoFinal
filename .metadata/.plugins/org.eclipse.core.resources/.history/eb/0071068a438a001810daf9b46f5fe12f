@@ -1,0 +1,54 @@
+package com.jda.ds.core;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Scanner;
+
+import com.jda.ds.util.LinkedList;
+
+public class FirstProb {
+
+	public static void main(String[] args) throws Exception {
+		LinkedList<String> list=new LinkedList<String>();
+		//LinkedList<Integer> list=new LinkedList<>();
+		  File file1=new File("//home/bridgelabz/workspace/DataStructures/src/com/jda/ds/util/txtt");
+		  BufferedReader br=new BufferedReader(new FileReader(file1));
+		  Scanner sc = new Scanner(System.in);
+		  String st ;
+		  String str="";
+		  while((st=br.readLine())!=null){
+			 
+			       str=str+st+',';
+		  }
+		  br.close();
+		  String[] arr=str.split(",");
+		  for(int i=0;i<arr.length;i++)
+		  {
+			  list.add(arr[i]);
+		  } 
+		  list.printList();
+		  System.out.println("Enter word to be searched:");
+		  //String item=Utility.getString();
+		  String item= sc.nextLine();
+		  //String item1=item.toLowerCase();
+		  boolean flag=list.contains(item);
+		  if(flag)
+		  {
+			  System.out.println("Word found");
+			  list.remove(item);
+		  }
+		  else
+		  {
+			  System.out.println("Word not found");
+			  list.add(item);
+		  }
+		  list.printList();
+		  System.out.print(list);
+		  {
+			  
+		  }
+			  
+		}
+
+}

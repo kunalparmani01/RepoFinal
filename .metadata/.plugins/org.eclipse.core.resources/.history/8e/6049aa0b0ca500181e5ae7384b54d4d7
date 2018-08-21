@@ -1,0 +1,60 @@
+package com.jda.service;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.jda.dao.IUserDAO;
+import com.jda.model.UserModel;
+import com.jda.utility.MailService;
+
+@Service
+public class UserService implements IUserService {
+
+	@Autowired
+	private IUserDAO userdao;
+
+	@Autowired
+	private BCryptPasswordEncoder bcCryptPasswordEncoder;
+
+	public boolean registerUser(UserModel userModel) {
+		userModel.setPassword(bcCryptPasswordEncoder.encode(userModel.getPassword()));
+		if (userdao.registerUser(userModel) > 0)
+			return true;
+		return false;
+	}
+
+	public UserModel loginUser(UserModel userModel) {
+		List<UserModel> users = userdao.getUserByEmail(userModel);
+		UserModel user = users.get(0);
+		if (user != null) {
+			if (BCrypt.checkpw(userModel.getPassword(), user.getPassword())) {
+				return user;
+			}
+
+			return null;
+		}
+		return null;
+	}
+
+	public boolean forgotPassword(UserModel userModel, String requestUrl) {
+		List<UserModel> listOfUser = userdao.getUserByEmail(userModel);
+		UserModel user = listOfUser.get(0);
+		if (user != null) {
+			String uuid = UUID.randomUUID().toString();
+			String link = requestUrl.substring(0, requestUrl.lastIndexOf("/")) + "/resetpasswordform?uuid=" + uuid;
+			if (userdao.insertUuid(uuid, user.getEmail())) {
+				MailService mailService = new MailService();
+				mailService.sendMail(link);
+				return true;
+			}
+		}
+		return false;
+	}
+
+}

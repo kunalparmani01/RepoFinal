@@ -1,0 +1,59 @@
+package com.jda.util;
+
+public class Queuee <T>{
+	
+	Queuee link;
+	T name;
+	int amount=20000;
+	static int size = 0;
+	public static Queuee front;
+	public static Queuee back;
+	public void push(T val) 
+	{
+		Queuee<T> node = new Queuee<>();
+		node.name = val;
+		if (size==0) {
+			front = node;
+			back = node;
+		} else {
+			front.link = node;
+			front = node;
+		}
+		size++;
+	}
+public int getBal()
+	{
+		return back.amount;
+	}
+public void withDraw(int amnt)
+{
+	if(amnt>back.amount)
+	{
+		System.out.println("insufficient Balance");
+		return;
+	}
+	back.amount-=amnt;
+}
+public void deposite(int amnt)
+{
+	back.amount+=amnt;
+}
+	public T  deque() {
+		if(back==null)
+			return null;
+		T ch= (T) back.name;
+		back = back.link;
+		size--;
+		return (T)ch;
+	}
+
+	public boolean isEmpty() {
+		if (size == 0)
+			return true;
+		return false;
+	}
+	public int sizeOfQueue() {
+		return size;
+	}
+
+}

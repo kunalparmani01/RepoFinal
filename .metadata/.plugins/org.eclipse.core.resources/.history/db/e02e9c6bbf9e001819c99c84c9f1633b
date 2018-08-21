@@ -1,0 +1,5 @@
+package com.jda.filters;
+
+public class ValidationFilter {
+
+}

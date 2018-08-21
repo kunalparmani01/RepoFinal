@@ -1,0 +1,21 @@
+package com.jda.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jda.dao.IUserDAO;
+
+@Service
+public class UserService  implements IUserService{
+
+	@Autowired
+	IUserDAO userdata;
+	
+	public boolean registerUser() {
+		// TODO Auto-generated method stub
+		int id = userdata.registerUser();
+		return false;
+	}
+
+	
+}

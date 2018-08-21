@@ -1,0 +1,8 @@
+package com.jda.controllers;
+
+
+
+@WebServelet("/logout")
+public class LogoutController {
+
+}

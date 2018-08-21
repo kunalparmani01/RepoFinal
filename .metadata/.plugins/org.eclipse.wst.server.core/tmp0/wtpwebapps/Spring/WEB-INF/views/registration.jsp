@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Registration</title>
+<!-- <script type="text/javascript" src="javaScript/formvalidation.js"></script>
+ -->
+ </head>
+<body>
+<h1>Registration Form</h1>
+<form action="register" name = "Form"  method="post">
+			<table style="with: 50%">
+				<tr>
+					<td>First Name</td>
+					<td><input type="text" name="firstName" /></td>
+				</tr>
+				<tr>
+				<td>
+				<% 
+				String emailerror = "";
+				if(request.getAttribute("emailError") != null){
+					emailerror = request.getAttribute("emailError").toString();
+				}
+				if(emailerror != null){
+					out.println(emailerror);
+				}
+				%></td>
+				</tr>
+				<tr>
+					<td>Last Name</td>
+					<td><input type="text" name="lastName" /></td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input type="email" name="email" /></td>
+				</tr>
+					<tr>
+					<td>Password</td>
+					<td><input type="password" name="password" /></td>
+				</tr>
+				<tr>
+					<td>Address</td>
+					<td><input type="text" name="address" /></td>
+				</tr>
+				<tr>
+					<td>Contact No</td>
+					<td><input type="text" name="phoneNumber" /></td>
+				</tr></table>
+			<input type="submit" value="Submit" /></form>
+			
+</body>
+</html>
+

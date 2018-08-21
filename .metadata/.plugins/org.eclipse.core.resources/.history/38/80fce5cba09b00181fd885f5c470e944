@@ -1,0 +1,24 @@
+package com.jda.controllers;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.jda.dao.JdbcUtil;
+import com.jda.model.UserModel;
+
+
+public class RegistrationController extends HttpServlet {
+	
+	  public static void doPost(HttpServletRequest request, HttpServletResponse response){
+		  UserModel userModel = new UserModel();
+		  userModel.setFirstName(request.getParameter("first_name"));
+		  userModel.setLastName(request.getParameter("last_name"));
+		  userModel.setEmail(request.getParameter("email"));
+		  userModel.setPassword(request.getParameter("password"));
+		  userModel.setAddress(request.getParameter("address"));
+		  userModel.setPhoneNumber((request.getParameter("contact")));
+		  JdbcUtil.registerUser(userModel);
+	  }
+
+}

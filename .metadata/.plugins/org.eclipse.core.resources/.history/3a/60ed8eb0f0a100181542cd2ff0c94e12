@@ -1,0 +1,31 @@
+package com.jda.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserDAO implements IUserDAO{
+
+	@Autowired
+	
+	DataSource dataSource;
+	
+	public int registerUser() {
+		// TODO Auto-generated method stub
+	  try {
+		Connection connection = dataSource.getConnection();
+		String sql = "insert into User values(?,?,?,?,?,?,?)";
+		Object object[] = new Object[]{};
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		return 0;
+	}
+
+}

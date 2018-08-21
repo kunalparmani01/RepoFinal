@@ -1,0 +1,352 @@
+package com.jda.core;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.jda.util.Scan;
+
+public class ClinicUser<T> {
+	private static final Class Doctor = null;
+	private static String path ="/home/bridgelabz/workspace/ObjectOriented/src/";
+	public  void  readFromFile(File fileName,List<T> patient,Class className) 
+	{
+		try {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode node = mapper.readTree(fileName);
+        for(JsonNode obj:node)
+        {
+        	T list = (T)mapper.treeToValue(obj,className);
+        	patient.add(list);
+        }
+		}
+		catch(Exception e)
+		{
+			System.out.println("Empty File");
+		}
+
+	}
+	public List<T>  showDoctorDetail()
+	{
+		File fileName=new File(path+"Doctors" +".json");
+		List<Doctor> dr= new ArrayList<>();
+		readFromFile(fileName, (List<T>) dr,Doctor.class);
+		
+		for(int i=0;i<dr.size();i++)
+		{
+			System.out.println("********************************************************************************");
+			System.out.println((i+1)+".\t\t\t" +     "               Id:    "+ dr.get(i).getId()
+					                    +"\n\t\t\t" +"      Doctor Name:    " +dr.get(i).getName()
+					                    +"\n\t\t\t" +"      Availability:   ");
+			for(int j=0; j< dr.get(i).getAvailability().getSchedule().size();j++)
+			{
+				System.out.println("\t\t\t\t\t\t" +dr.get(i).getAvailability().getSchedule().get(j).getDay()+"  "+dr.get(i).getAvailability().getSchedule().get(j).getTime() );
+			}
+		}
+		return (List<T>) dr;
+	}
+
+	public void addPatientDetail() throws JsonGenerationException, JsonMappingException, IOException 
+	{
+		   List<Doctor> drInfo= (List<Doctor>) showDoctorDetail();
+			File fileName=new File(path+"Patients" +".json");
+			List<Patient> patient1= new ArrayList<>();
+			readFromFile(fileName,(List<T>) patient1,Patient.class);
+			List<Patient> patient= new ArrayList<>();
+			boolean exist=false;
+		Scan.nextline();
+			Patient pr=new Patient();
+			System.out.println("Patient Name");
+			pr.setPatientName(Scan.getString());
+			System.out.println("Mobile Number");
+			pr.setMobileNumber(Scan.getInt());
+			int idx1=searchInPatient(patient1, pr.getPatientName(), "ByName",false);
+			if(idx1>=0 &&(patient1.get(idx1).getMobileNumber()-pr.getMobileNumber())==0)
+			{
+				System.out.println("Your data already exist in our system");
+				exist=true;
+			}
+			else
+			{
+			System.out.println("Unique Id");
+			pr.setId(Scan.getInt());
+			System.out.println("Age");
+			pr.setAge(Scan.getInt());
+			patient.add(pr);
+			writeToFile(fileName, patient1);
+			}
+			while(true)
+			{
+			System.out.println("Enter a valid serial number of doctor to get appointment........");
+			int opt=Scan.getInt();
+			if(opt>drInfo.size()+1)
+			{
+				System.out.println("Not a valid option");
+				continue;
+			}
+			if(exist)
+				pr=patient1.get(idx1);
+			addAppointment(pr,drInfo.get(opt-1));
+         }
+	}
+	private void addAppointment(Patient pr,Doctor doctorName)
+	{
+		Appointment apt=new Appointment();
+        apt.doctorName=doctorName;
+        List<Appointment> aptDetail =new ArrayList<>();
+        File file=new File(path+"Appointment"+".json");
+        readFromFile(file,(List<T>) aptDetail,Appointment.class);
+        if(have(aptDetail,apt.doctorName))
+        {
+     	   int idx=getIdx(aptDetail,doctorName);
+     	   if(aptDetail.get(idx).patientName.size()==5)
+     	   {
+     		   System.out.println("Doctor is not availble select other one");
+     		   return;
+     	   }
+     	   aptDetail.get(idx).patientName.add(pr);
+        }
+     	else
+     	   {
+     		  Appointment patientApt= new Appointment();
+     		  List<Patient> ptr=new ArrayList<>();
+     		  ptr.add(pr);
+     		  patientApt.setDoctorName(apt.doctorName);
+     		  patientApt.setPatientName(ptr);
+     		  aptDetail.add(patientApt);
+     		  
+     	   }
+     	   File fileName1=new File("/home/bridgelabz/workspace/ObjectOriented/src/Appointment.json");
+     	   try {
+			writeToFile(fileName1,(List<T>) aptDetail,Appointment.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
+
+	private int getIdx(List<Appointment> list , Doctor doctorName)
+	{
+		for(int i=0;i<list.size();i++)
+		{
+			if(list.get(i).doctorName.getId()==doctorName.getId())
+				return i;
+		}
+		return -1;
+	}
+	boolean have(List<Appointment> aptDetail,Doctor doctorName)
+	{
+		for(int i=0;i<aptDetail.size();i++)
+		{
+			if(aptDetail.get(i).doctorName.getId()==doctorName.getId())
+				return true;
+		}
+		return false;
+	}
+	public void openUserAccount() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void writeToFile(File fileName,List<T> patientList,Class className) throws JsonGenerationException, JsonMappingException, IOException 
+	{
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter writer = mapper.writer();
+			writer.writeValue(fileName,
+					patientList);
+	}
+	public static void addDoctorDetail() throws JsonGenerationException, JsonMappingException, IOException {
+		File fileName=new File(path+"Doctors" +".json");
+		List<Doctor> drInfo= new ArrayList<>();
+		System.out.println("Number of doctor");
+		int drNumber=Scan.getInt();
+		for(int i=0;i<drNumber;i++)
+		{
+		Doctor doctor= new Doctor();
+		Scan.nextline();
+		System.out.println("Doctor Name");
+		doctor.setName(Scan.getString());
+		System.out.println("Unique Id");
+		doctor.setId(Scan.getInt());
+		System.out.println("Mobile Number");
+		doctor.setMobileNumber(Scan.getInt());
+		System.out.println("Specialization");
+		doctor.setSpecialization(Scan.getString());
+		Availabilty availabilty=new Availabilty();
+		System.out.println("Number of availablity in days");
+		int days=Scan.getInt();
+		Scan.nextline();
+		for(int j=0;j<days;j++)
+		{
+		Timing schedule=new Timing();
+		System.out.println("Day");
+		schedule.setDay(Scan.getString());
+		System.out.println("Timimg");
+		schedule.setTime(Scan.getString());
+		availabilty.schedule.add(schedule);
+		}
+		doctor.setAvailability(availabilty);
+		drInfo.add(doctor);
+	}
+		writeToFile(fileName, drInfo);
+  }
+	public  void patientMenu() {
+		File fileName=new File(path+"PatientInfo" +".json");
+		List<Patient> patientInfo= new ArrayList<>();
+		readFromFile(fileName, (List<T>) patientInfo,Patient.class);
+		System.out.println("1.Search by name"+"\n2."+ "Search by Id" +"\n3.Search By Mobile number");
+		int opt=Scan.getInt();
+		Scan.nextline();
+		switch(opt)
+		{
+		case 1:searchPatientByName(patientInfo);break;
+		case 2:searchPatientById(patientInfo);break;
+		case 3:searchPatientBYMobNum(patientInfo);break;
+		default:
+			System.out.println("worng entry");
+		}
+		
+	}
+	private int searchInPatient(List<Patient> patientInfo, String val, String string,boolean print) {
+		boolean found=false; 
+		int i;
+		for( i=0;i<patientInfo.size();i++)
+		{
+			if(string.equals("ById")&&(patientInfo.get(i).getId()-Long.valueOf(val))==0)
+			{found=true;break;}
+			if(string.equals("ByMobNum")&&(patientInfo.get(i).getMobileNumber()-Long.valueOf(val))==0)
+			{found=true;break;}
+			if(string.equals("ByName")&&(patientInfo.get(i).getPatientName().equals(val)))
+			{found=true;break;}
+	}
+		if(found)
+		{
+			if(print)
+			{
+			System.out.println("Data Found for Patient............................................................");
+			System.out.println("Patient Name                            :"+ patientInfo.get(i).getPatientName()
+					               +"\n" +"Patient Id                                  :" + patientInfo.get(i).getId()
+					               +"\n" +"Patient Mobile Number          :" + patientInfo.get(i).getMobileNumber());
+			}
+			return i;
+		}
+		if(print && !found)
+			System.out.println("data not found");
+		return -1;
+	}
+	private void searchInDoctor(List<Doctor> doctorInfo, String val, String string) {
+		boolean found=false;
+		int i;
+		for(i=0;i<doctorInfo.size();i++)
+		{
+			if(string.equals("ById")&&(doctorInfo.get(i).getId()-Long.valueOf(val))==0)
+			{found=true;break;}
+			if(string.equals("ByMobNum")&&(doctorInfo.get(i).getMobileNumber()-Long.valueOf(val))==0)
+			{found=true;break;}
+			if(string.equals("ByName")&&(doctorInfo.get(i).getName().equals(val)))
+			{found=true;break;}
+		}	
+		if(found)
+		{
+			System.out.println("Data Found for Doctor............................................................");
+			System.out.println("Doctor Name                            :"+ doctorInfo.get(i).getName()
+					               +"\n" +"Doctor Id                                  :" + doctorInfo.get(i).getId()
+					               +"\n" +"Doctor Mobile Number          :" + doctorInfo.get(i).getMobileNumber());
+		}
+		else
+			System.out.println("data not found");
+	}
+	private void searchPatientById(List<Patient>  patientInfo)
+	{
+		System.out.println("Enter the Id");
+		String val= Scan.getString();
+	    searchInPatient(patientInfo,val,"ById",true);
+	}
+	private void searchPatientBYMobNum(List<Patient>  patientInfo)
+	{
+		System.out.println("Enter the Mobile Number");
+		String val= Scan.getString();
+	    searchInPatient(patientInfo,val,"ByMobNum",true);
+	}
+	private void searchPatientByName(List<Patient>  patientInfo)
+	{
+		System.out.println("Enter the name");
+		String val= Scan.getString();
+	    searchInPatient(patientInfo,val,"ByName",true);
+	}
+	
+	private void searchDoctorById(List<Doctor>  doctorInfo)
+	{
+		System.out.println("Enter the Id");
+		String val= Scan.getString();
+	    searchInDoctor(doctorInfo,val,"ById");
+	}
+	private void searchDoctorBYMobNum(List<Doctor>  doctorInfo)
+	{
+		System.out.println("Enter the Mobile Number");
+		String val= Scan.getString();
+	    searchInDoctor(doctorInfo,val,"ByMobNum");
+	}
+	private void searchDoctorByName(List<Doctor>  doctorInfo)
+	{
+		System.out.println("Enter the name");
+		String val= Scan.getString();
+	    searchInDoctor(doctorInfo,val,"ByName");
+	}
+	
+	public void doctorMenu() {
+		File fileName=new File(path+"DoctorInfo" +".json");
+		List<Doctor> drInfo= new ArrayList<>();
+		readFromFile(fileName, (List<T>) drInfo,Doctor.class);
+		System.out.println("1.Search by name"+"\n2."+ "Search by Id" +"\n3.Search By Mobile number");
+		int opt=Scan.getInt();
+		Scan.nextline();
+		switch(opt)
+		{
+		case 1:searchDoctorByName(drInfo);break;
+		case 2:searchDoctorById(drInfo);break;
+		case 3:searchDoctorBYMobNum(drInfo);break;
+		default:
+			System.out.println("worng entry");
+		}
+	
+		// TODO Auto-generated method stub
+		
+	}
+	/*public static void addEntry() {
+		System.out.println("1.Add entry for doctor " + "\n" +"2.Add entry for patient");
+		int opt=get.sc.nextInt();
+		try {
+		switch(opt)
+		{
+		case 1:addDoctorDetail();break;
+		case 2:addPatientDetailIntoFile();break;
+		default:System.out.println("Wrong entry.............");return;
+		}
+		// TODO Auto-generated method stub
+		
+	}
+		catch(Exception e)
+		{
+			System.out.println("Unable to add entry");
+		}
+}*/
+	private static void addPatientDetailIntoFile() {
+		// TODO Auto-generated method stub
+		
+	}
+	public static <T> void writeToFile(File fileName, List<T> obj)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter writer = mapper.writer();
+		writer.writeValue(fileName, obj);
+	}
+
+}

@@ -1,0 +1,54 @@
+package com.jda.dao;
+
+import java.sql.Connection;
+import java.sql.JDBCType;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.jda.model.UserModel;
+
+@Repository
+public class UserDAO implements IUserDAO {
+
+	@Autowired
+	private DataSource dataSource;
+
+	public int registerUser(UserModel userModel) {
+		int id = 0;
+		try {
+			Connection connection = dataSource.getConnection();
+			String sql = "insert into User  values(?,?,?,?,?,?,?)";
+			Object[] object = new Object[] { 0, userModel.getFirstName(), userModel.getLastName(), userModel.getEmail(),
+			      userModel.getPassword(), userModel.getAddress(), userModel.getPhoneNumber() };
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			jdbcTemplate.update(sql, object);
+			return id;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
+	
+	public int loginUser(UserModel userModel){
+		int id = 0;
+		
+		try {
+			Connection connection = dataSource.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String sql = "select * from User where email = ?";
+				Object[] object = new Object[] {  userModel.getEmail()};
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.execute(sql, object);
+		return id;
+	}
+
+}

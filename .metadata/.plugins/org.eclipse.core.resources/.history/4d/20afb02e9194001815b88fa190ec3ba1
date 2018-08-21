@@ -1,0 +1,18 @@
+package com.jda.util;
+
+import java.util.Scanner;
+
+public class Scan {
+	
+
+	Scanner sc = new Scanner(System.in);
+
+	public static int getInt() {
+		// TODO Auto-generated method stub
+		int num = 
+		return 0;
+	}
+  	
+	
+	
+}

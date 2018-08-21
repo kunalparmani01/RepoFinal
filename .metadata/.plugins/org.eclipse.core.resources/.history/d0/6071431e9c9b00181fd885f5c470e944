@@ -1,0 +1,18 @@
+package com.jda.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import com.mysql.cj.jdbc.Driver;
+
+public class JdbcUtil {
+	
+	private String jdbcUrl = "jdbc:mysql://"+System.getenv("DBHOST")+":3306/"
+	                                               +System.getenv("DBNAME")+"?user="+System.getenv("DBUSER")+"&password="+System.getenv("DBPASSWORD");
+
+	public Connection getConnection(){
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection connection = DriverManager.getConnection(jdbcUrl)
+		return connection;
+	}
+}

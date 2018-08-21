@@ -1,0 +1,5 @@
+package com.jda.spring;
+
+public class SpringConfiguration {
+
+}

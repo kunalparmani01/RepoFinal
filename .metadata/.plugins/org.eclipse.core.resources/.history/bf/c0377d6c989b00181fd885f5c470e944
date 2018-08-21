@@ -1,0 +1,5 @@
+package com.jda.controllers;
+
+public class RegistrationController {
+
+}

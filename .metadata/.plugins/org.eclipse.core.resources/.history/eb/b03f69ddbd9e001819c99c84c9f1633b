@@ -1,0 +1,10 @@
+package com.jda.dao;
+
+import java.sql.Connection;
+
+public interface IJdbcUtil {
+
+	 public static Connection getConnection() throws ClassNotFoundException;
+	 
+	 
+}

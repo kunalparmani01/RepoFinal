@@ -1,0 +1,41 @@
+package com.jda.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+
+
+	
+	@Configuration
+	@ComponentScan("com.jda")
+	@EnableWebMvc
+	public class SpringConfiguration {
+	 
+		@Bean
+		public InternalResourceViewResolver resolver(){
+		 InternalResourceViewResolver internalResourceviewResolver= new InternalResourceViewResolver();
+		 internalResourceviewResolver.setPrefix("/WEB-INF/views/");
+		 internalResourceviewResolver.setSuffix(".jsp");
+		 return internalResourceviewResolver;
+	 }
+		
+		@Bean
+		public DataSource getDatasource(){
+			
+			DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+			driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+			driverManagerDataSource.setUrl("jdbc.mysql://" + System.getenv("DBHOST") + "/" + System.getenv("DBNAME"));
+		
+			driverManagerDataSource.setPassword("jdbc.mysql://" + System.getenv("DBPASSWORD"));
+			driverManagerDataSource.setUsername("jdbc.mysql://" + System.getenv("DBUSERNAME"));
+			return driverManagerDataSource;
+		}
+	
+	
+	}

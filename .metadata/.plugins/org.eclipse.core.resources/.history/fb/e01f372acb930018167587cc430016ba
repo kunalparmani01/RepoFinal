@@ -1,0 +1,74 @@
+package com.jda.core;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class AddressBookManager {
+	
+	public static void main(String[] args) throws IOException{
+		
+	
+		
+		while(true)
+		{
+			int value;
+			
+			System.out.println("Enter 1 - to Create a new address book");
+			System.out.println("Enter 2 - to Open an address book");
+			System.out.println("Enter 3 - to Close an address book");
+			System.out.println("Enter 4 - to Save  an address book");
+			System.out.println("Enter 5 - to Save  As an address book");
+			System.out.println("Enter 6 - to Quit  an address book");
+			Scanner sc = new Scanner(System.in);
+			value = sc.nextInt();
+		
+		switch (value ) {
+		case 1:
+			CreateAddressBook();
+			break;
+			
+		case 2:
+			
+			OpenAddressBook();
+			break;
+
+		default:
+			break;
+		}
+	}
+	}
+
+	private static void OpenAddressBook() {
+		File file = new File("//home//bridgelabz//workspace//ObjectOriented//src");
+		if(file.isDirectory())
+		{
+		for (File filee:file.listFiles())
+		{
+			System.out.println(filee.getName());
+		}
+		
+	}
+	
+	else
+	{
+		System.out.println("Directory is empty");
+	}
+	}
+
+	private static void CreateAddressBook() throws IOException {
+		System.out.println("Enter Name of Address Book");
+		Scanner sc = new Scanner(System.in);
+		String addressname = sc.next();
+		File file = new File("//home//bridgelabz//workspace//ObjectOriented//src//" + addressname + ".json");
+		
+		if(file.createNewFile()){
+			System.out.println("File is created!");
+		}else{
+			System.out.println("File exists");
+			
+		}
+		
+	}
+
+}

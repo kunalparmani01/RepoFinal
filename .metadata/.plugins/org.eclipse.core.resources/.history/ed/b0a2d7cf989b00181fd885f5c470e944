@@ -1,0 +1,6 @@
+package com.jda.model;
+
+public class User {
+
+	private String firstName;
+}

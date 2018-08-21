@@ -1,0 +1,14 @@
+package com.jda.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService  implements IUserService{
+
+	public boolean registerUser() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+}

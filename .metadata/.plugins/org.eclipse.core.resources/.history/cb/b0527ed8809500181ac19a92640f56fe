@@ -1,0 +1,32 @@
+package com.jda.core;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
+import com.fasterxml.jackson.core.JsonParseException;
+
+public class StockPortfolio {
+	public static List<Stock> readFromFile() throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		List<Stock> stock = mapper.readValue(new File("//home//bridgelabz//workspace//ObjectOriented//src//stocks.json"), new TypeReference<ArrayList<Stock>>() {	});
+		return stock;
+	}
+
+	public static void calculateValues() throws JsonParseException, JsonMappingException, IOException {
+		List<Stock> stock = readFromFile();
+		for (Stock x : stock)
+		{
+			System.out.print("Name : " + x.getName() + " \t| " + "Value : " + x.getPrice()*x.getQuantity() + "\n");
+		}
+	}
+
+	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
+		calculateValues();
+	}
+}

@@ -1,0 +1,25 @@
+package com.jda.core;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class Transaction {
+	
+	String transactionType;
+	String date;
+	public String getTransactionType() {
+		return transactionType;
+	}
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate() {
+		DateTimeFormatter date=DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	    LocalDateTime now=LocalDateTime.now();
+	    this.date=date.format(now);
+	}
+
+}

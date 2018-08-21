@@ -1,0 +1,48 @@
+package com.jda.core;
+
+import java.text.SimpleDateFormat;
+
+public class CompanyShares {
+	
+	private String compname;
+	private int numberOfShares;
+	private String date;
+	private String mode;
+	
+	public CompanyShares() {
+		// TODO Auto-generated constructor stub
+	}
+	public CompanyShares(String compname, int numberOfShares) {
+		// TODO Auto-generated constructor stub
+		this.compname = compname;
+		this.numberOfShares = numberOfShares;
+		this.date = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+	}
+	public String getcompname() {
+		return compname;
+	}
+	public void setcompname(String compname) {
+		this.compname = compname;
+	}
+	public int getNumberOfShares() {
+		return numberOfShares;
+	}
+	public void setNumberOfShares(int numberOfShares) {
+		this.numberOfShares = numberOfShares;
+	}
+	public String getDate() {
+		return date;
+	}
+	public String getMode() {
+		return mode;
+	}
+	
+	public String setMode(String mode) {
+		return mode;
+	}
+	
+	public void setDate() {
+		this.date = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+	}
+
+}

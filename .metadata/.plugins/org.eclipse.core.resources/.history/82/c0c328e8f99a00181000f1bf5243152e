@@ -1,0 +1,22 @@
+package com.jda.core;
+
+import java.util.List;
+
+public class Appointment {
+	
+	Doctor doctorName;
+	List<Patient> patientName;
+	public Doctor getDoctorName() {
+		return doctorName;
+	}
+	public void setDoctorName(Doctor doctorName) {
+		this.doctorName = doctorName;
+	}
+	public List<Patient> getPatientName() {
+		return patientName;
+	}
+	public void setPatientName(List<Patient> patientName) {
+		this.patientName = patientName;
+	}
+
+}

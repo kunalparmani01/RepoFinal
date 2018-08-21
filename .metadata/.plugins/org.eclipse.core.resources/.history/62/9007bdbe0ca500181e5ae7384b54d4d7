@@ -1,0 +1,110 @@
+package com.jda.dao;
+
+import java.sql.Connection;
+import java.sql.JDBCType;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.stereotype.Repository;
+
+import com.jda.model.UserModel;
+
+@Repository
+public class UserDAO implements IUserDAO {
+
+	@Autowired
+	private DataSource dataSource;
+	
+	public int registerUser(UserModel userModel) {
+		int id = 0;
+		try {
+			Connection connection = dataSource.getConnection();
+			String sql = "insert into User  values(?,?,?,?,?,?,?)";
+			Object[] object = new Object[] { 0, userModel.getFirstName(), userModel.getLastName(), userModel.getEmail(),
+			      userModel.getPassword(), userModel.getAddress(), userModel.getPhoneNumber() };
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			jdbcTemplate.update(sql, object);
+			return id;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+	
+	
+	public List<UserModel> getUserByEmail(UserModel userModel){
+		int id = 0;
+		
+		try {
+			Connection connection = dataSource.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String sql = "select * from User where email = ?";
+				Object[] object = new Object[] {  userModel.getEmail()};
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		return jdbcTemplate.query(sql, object, new RowMapper(){
+			public UserModel mapRow(ResultSet resultSet, int row) throws SQLException{
+				UserModel user = new UserModel();
+				
+				user.setFirstName(resultSet.getString(2));
+				user.setLastName(resultSet.getString(3));
+				user.setEmail(resultSet.getString(4));
+				user.setPassword(resultSet.getString(5));
+				user.setAddress(resultSet.getString(6));
+				user.setPhoneNumber(resultSet.getString(7));
+				return user;
+			}
+		});
+	}
+
+
+	public boolean insertUuid(String uuid, String email) {
+		int id = 0;
+		try {
+			Connection connection = dataSource.getConnection();
+			String sql = "update User set uuid = ? where email = ?";
+			Object[] object = new Object[] {uuid, email};
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			id = jdbcTemplate.update(sql, object);
+			if(id > 0){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
+	public UserModel getUserByUUID(String uuid) {
+		String sql = "Select * from User where uuid = ?";
+		Object[] object = new Object[] {uuid};
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<UserModel> listOfUser = jdbcTemplate.query(sql, object, new RowMapper(){
+			public UserModel mapRow(ResultSet resultSet, int row) throws SQLException{
+				UserModel user = new UserModel();
+				
+				user.setFirstName(resultSet.getString(2));
+				user.setLastName(resultSet.getString(3));
+				user.setEmail(resultSet.getString(4));
+				user.setPassword(resultSet.getString(5));
+				user.setAddress(resultSet.getString(6));
+				user.setPhoneNumber(resultSet.getString(7));
+				return user;
+			}
+		});	
+		return listOfUser.get(0);
+	}
+
+}

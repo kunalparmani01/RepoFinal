@@ -1,0 +1,31 @@
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.mysql.jdbc.Connection;
+
+public class Sql {
+	
+	public static void main(String args[]) {
+	Class.forName("com.mysql.jdbc.Driver")
+		String dbURL = "jdbc:mysql://10.0.0.160/db1000174";
+				String username ="u1000174";
+				String password = "mUW1rr4vhh";
+				Connection dbCon = null;
+	
+				try { 
+					dbCon = (Connection) DriverManager.getConnection(dbURL, username, password);
+					System.out.println("Success");
+				}
+    catch (SQLException ex)
+				{ Logger.getLogger(Collection.class.getName()).log(Level.SEVERE, null, ex); }
+				finally{  }
+
+
+	
+	}
+	
+
+}

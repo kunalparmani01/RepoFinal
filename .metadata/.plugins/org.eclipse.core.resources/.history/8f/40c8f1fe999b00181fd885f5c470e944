@@ -1,0 +1,11 @@
+package com.jda.controllers;
+
+import javax.servlet.http.HttpServlet;
+
+import com.jda.model.UserModel;
+
+public class RegistrationController extends HttpServlet {
+	
+	  
+
+}

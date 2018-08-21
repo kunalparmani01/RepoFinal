@@ -1,0 +1,21 @@
+package com.jda.controllers;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.jda.dao.JdbcUtil;
+import com.jda.model.UserModel;
+
+public class LoginController extends HttpServlet{
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response){
+		UserModel umm = new UserModel();
+		umm.setEmail(request.getParameter("username"));
+		umm.setPassword(request.getParameter("password"));
+		
+		JdbcUtil.loginUser(umm);
+		
+	}
+
+}

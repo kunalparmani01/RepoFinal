@@ -1,0 +1,28 @@
+package com.jda.util;
+
+import java.util.Scanner;
+
+public class Scan {
+	
+
+
+
+	public static int getInt() {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		int num = sc.nextInt();
+		return num;
+	
+	}
+  	
+	public static String getString() {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		String value = sc.nextLine();
+		return value;
+	
+	}
+	
+	
+	
+}

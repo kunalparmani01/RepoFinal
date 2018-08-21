@@ -1,0 +1,26 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@page import="com.jda.model.UserModel"%>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Welcome</title>
+</head>
+
+<body>
+<form action="logout" method="post">
+
+  
+  <button type="submit" >Logout</button>
+</form>
+<%
+String userName = "";
+if(request.getSession().getAttribute("user")!=null){
+UserModel user = (UserModel) request.getSession().getAttribute("user");
+   userName = user.getFirstName()+" "+user.getLastName();
+   
+}
+%>
+Welcome: <%=userName %>
+</body>
+</html>

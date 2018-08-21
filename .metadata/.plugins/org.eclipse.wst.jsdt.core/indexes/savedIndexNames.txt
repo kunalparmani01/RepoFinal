@@ -1,0 +1,14 @@
+INDEX VERSION 1.3+/home/bridgelabz/workspace/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2135279282.index
+911131060.index
+2135279282.index
+40046104.index
+40046104.index
+810424444.index
+810424444.index
+2587255410.index
+2043225847.index
+3975289951.index
+2092340382.index
+2092340382.index
+3553273492.index
